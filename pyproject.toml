@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-glance"
+version = "1.0.0"
+description = "Windows 任务栏滚动实时股票行情小组件 / A scrolling real-time stock ticker widget for the Windows taskbar"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["stock", "ticker", "taskbar", "widget", "tkinter", "windows"]
+dependencies = [
+    "requests>=2.25.0",
+    "pywin32>=305; platform_system == 'Windows'",
+]
+
+[project.scripts]
+stock-glance = "stock_glance.__main__:main"
+
+[tool.setuptools]
+packages = ["stock_glance"]

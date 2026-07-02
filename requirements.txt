@@ -1,0 +1,6 @@
+requests>=2.25.0
+# 系统托盘图标（默认模式，和飞书/微信等图标同排显示）
+pystray>=0.19.0
+Pillow>=9.0.0
+# 仅 Windows 需要，用于可选的悬浮窗定位（--float 模式）
+pywin32>=305; platform_system == "Windows"
