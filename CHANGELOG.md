@@ -5,6 +5,11 @@
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.1] - 2026-07-03
+
+### 修复
+- 港股行情改用腾讯实时数据源，修复原先港股显示延迟约 15 分钟的问题。用户输入与配置格式无需改动，程序自动切换。
+
 ## [1.0.0] - 2026-07-02
 
 首个公开发布版本。
@@ -22,4 +27,5 @@
 - 提供 `-s` 临时指定股票、`-c` 指定配置文件、`-v` 调试日志等命令行参数。
 - 支持通过 PyInstaller 打包为 Windows 单文件 exe，双击即用，无需安装 Python。
 
+[1.0.1]: https://github.com/JeanStory/StockGlance/releases/tag/v1.0.1
 [1.0.0]: https://github.com/JeanStory/stock-glance/releases/tag/v1.0.0

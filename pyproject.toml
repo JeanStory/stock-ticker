@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stock-glance"
-version = "1.0.0"
+version = "1.0.1"
 description = "Windows 任务栏滚动实时股票行情小组件 / A scrolling real-time stock ticker widget for the Windows taskbar"
 readme = "README.md"
 requires-python = ">=3.9"

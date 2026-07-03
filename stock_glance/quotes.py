@@ -104,8 +104,11 @@ def _parse_tencent(payload: str) -> list[Quote]:
             # 无效代码时腾讯会返回空内容 v_xxx="";
             logger.warning("跳过无效行情: %s", var)
             continue
-        # 从变量名恢复原始代码，如 v_sh600519 -> sh600519
+        # 从变量名恢复原始代码，如 v_sh600519 -> sh600519。
+        # 港股实时源用 r_hk 前缀请求，这里还原成 hk 以匹配用户配置。
         code = var.replace("v_", "", 1)
+        if code.startswith("r_hk"):
+            code = code[2:]
         try:
             quotes.append(
                 Quote(
@@ -174,10 +177,25 @@ def _build_headers(api_key: str = "") -> dict:
     return headers
 
 
+def _to_tencent_realtime(code: str) -> str:
+    """把港股代码转成腾讯的实时前缀。
+
+    腾讯免费接口对 ``hk`` 前缀默认返回延迟约 15 分钟的行情，
+    带 ``r_`` 前缀（如 ``r_hk00700``）才是实时行情。字段结构与
+    延迟源完全一致，因此只需在请求时替换前缀，解析层无需改动。
+    A 股 / 美股不受影响，原样返回。
+    """
+    if code.startswith("hk"):
+        return "r_" + code
+    return code
+
+
 def _fetch_tencent(
     codes: list[str], base_url: str = "", api_key: str = ""
 ) -> list[Quote]:
-    url = (base_url or _TENCENT_URL) + ",".join(codes)
+    # 港股自动切换到实时前缀 r_hk，对用户输入与界面显示透明。
+    req_codes = [_to_tencent_realtime(c) for c in codes]
+    url = (base_url or _TENCENT_URL) + ",".join(req_codes)
     resp = requests.get(url, headers=_build_headers(api_key), timeout=_TIMEOUT)
     resp.encoding = "gbk"
     resp.raise_for_status()
